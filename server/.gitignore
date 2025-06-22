@@ -1,0 +1,50 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# OS & Editor specific
+.DS_Store
+Thumbs.db
+
+# Build files
+dist/
+build/
+
+# IDEs
+.vscode/
+.idea/
+
+# Database dump or local data files
+*.sqlite
+*.db
+*.bak
+
+# PM2 process manager logs
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage/test reports
+coverage/
+.nyc_output/
+
+# Optional: MongoDB dump files
+dump/
+
+# Optional: Custom uploads or temp folders
+uploads/
+temp/
+tmp/
