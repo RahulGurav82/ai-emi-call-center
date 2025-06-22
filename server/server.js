@@ -30,6 +30,8 @@ app.get("/", (req, res) => {
     res.send("Work");
 });
 
+app.use("/api/v1/auth/", require('./routes/auth-routes'))
+
 const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
