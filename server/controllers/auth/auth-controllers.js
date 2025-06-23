@@ -1,11 +1,11 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const LoginModel = require("../models/Login.model"); // Your login schema model
-const { loginSchema, registerSchema } = require("../validators/authValidator");
+const LoginModel = require("../../models/Login.model"); // Your login schema model
+const { loginSchema, registerSchema } = require("../../validators/auth/authValidator");
 require("dotenv").config();
 
 // Environment secret
-const JWT_SECRET = process.env.JWT_SECRET || "asdfghjklqwertyuiopzxcvbnm";
+const JWT_SECRET = process.env.JWT_SECRET || "asdfmmghjklqwertyuiopzxcvbnm";
 
 // Register Controller
 exports.register = async (req, res) => {
@@ -75,11 +75,13 @@ exports.login = async (req, res) => {
       }
     );
 
-    res.json({
+    res.status(200).json({
       success: true,
       token,
       user: { name: user.name, email: user.email, role: user.role },
     });
+
+
   } catch (err) {
     if (err.name === "ZodError") {
       const errorMessages = err.errors.map((e) => e.message);
@@ -106,7 +108,6 @@ exports.authMiddleware = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    console.log(decoded);
     req.user = decoded; // You can access `req.user.id`, `req.user.role`, etc.
     next();
   } catch (err) {
