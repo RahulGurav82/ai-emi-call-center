@@ -1,50 +1,42 @@
 import React from "react";
-import { useLocation, Navigate } from "react-router-dom";
+import { useLocation, Navigate, Outlet } from "react-router-dom";
 
-const CheckAuth = ({ isAuthenticated, user, children }) => {
+const CheckAuth = ({ isAuthenticated, user }) => {
   const location = useLocation();
 
-  if (location.pathname === "/") {
-    if (!isAuthenticated) {
-      <Navigate to="/auth/login" />
-    }
-  } else {
-    if (user?.role === "admin") {
-      <Navigate to="/admin/dashboard" />;
-    } else {
-      <Navigate to="/employee/dashboard" />;
-    }
-  }
-
-  if (!isAuthenticated && !location.pathname.includes("/login")) {
+  // Redirect unauthenticated users
+  if (!isAuthenticated && !location.pathname.includes("/auth/login")) {
     return <Navigate to="/auth/login" />;
   }
 
-  if (!isAuthenticated && location.pathname.includes("/auth/login")) {
-    if (user.role === "admin") {
-      return <Navigate to="/admin/dashboard" />;
-    } else {
-      return <Navigate to="/employee/dashboard" />;
-    }
+  // Prevent authenticated users from accessing login page
+  if (isAuthenticated && location.pathname.includes("/auth/login")) {
+    return user?.role === "admin" ? (
+      <Navigate to="/admin/dashboard" />
+    ) : (
+      <Navigate to="/employee/dashboard" />
+    );
   }
 
+  // Role-based protection
   if (
     isAuthenticated &&
     user?.role !== "admin" &&
-    location.pathname.includes("admin")
+    location.pathname.includes("/admin")
   ) {
+    console.log(user?.role, "roleeee")
     return <Navigate to="/unauth-page" />;
   }
 
   if (
     isAuthenticated &&
     user?.role === "admin" &&
-    location.pathname.includes("employee")
+    location.pathname.includes("/employee")
   ) {
     return <Navigate to="/admin/dashboard" />;
   }
 
-  return { children };
+  return <Outlet />; // this renders nested child routes
 };
 
 export default CheckAuth;

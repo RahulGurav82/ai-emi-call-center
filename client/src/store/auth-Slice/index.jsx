@@ -23,26 +23,27 @@ export const loginUser = createAsyncThunk(
   async (formData, thunkAPI) => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/login`, formData);
-      const { token, user } = response.data;
+      const { token, user, success } = response.data;
 
       sessionStorage.setItem("token", token); // Token stored only for session
-      return { user, token };
+      return { user, token, success};
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message || "Login failed");
+      return thunkAPI.rejectWithValue(error.response.data || "Login failed");
     }
   }
 );
 
 // CHECK AUTH (on page reload or refresh)
-export const checkAuth = createAsyncThunk(`${import.meta.env.VITE_BACKEND_URL}/auth/check-auth`, async (_, thunkAPI) => {
+export const checkAuth = createAsyncThunk(`/auth/check-auth`, async (_, thunkAPI) => {
   const token = sessionStorage.getItem("token");
 
   if (!token) return thunkAPI.rejectWithValue("No token found");
 
   try {
-    const response = await axios.get("/api/dashboard", {
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/auth/check-auth`, {
       headers: { Authorization: `Bearer ${token}` },
     });
+
     return { user: response.data, token };
   } catch (error) {
     return thunkAPI.rejectWithValue("Invalid session. Please login again.");
@@ -58,7 +59,7 @@ export const logoutUser = createAsyncThunk(`${import.meta.env.VITE_BACKEND_URL}/
 const initialState = {
   user: null,
   token: token || null,
-  isAuthenticated: !!token,
+  isAuthenticated: false,
   loading: false,
   error: null,
 };
