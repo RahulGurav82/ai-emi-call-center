@@ -8,11 +8,14 @@ import EmplDashboard from "./pages/employee/Dashboard";
 import UnAuthPage from "./pages/common/UnAuthPage";
 import NotFoundPage from "./pages/common/NotFoundPage";
 import { checkAuth } from "./store/auth-Slice";
+import AddUser from "./pages/admin/AddUser";
+import AddLoan from "./pages/admin/AddLoan";
+import AddEmployee from "./pages/admin/AddEmployee";
+import AdminLayout from './components/admin/layout/AdminLayout'
 
 const App = () => {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  console.log("isAuthenticated", isAuthenticated, "user", user)
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
@@ -21,11 +24,12 @@ const App = () => {
     <Routes>
       {/* Public Login Route */}
       <Route
-        path="/auth"
+        path="/"
         element={<CheckAuth isAuthenticated={isAuthenticated} user={user} />}
       >
-        <Route path="login" element={<Login />} />
       </Route>
+
+      <Route path="/auth/login" element={<CheckAuth isAuthenticated={isAuthenticated} user={user} ><Login /> </CheckAuth>} />
 
       {/* Unauth & Not Found Pages */}
       <Route path="/unauth-page" element={<UnAuthPage />} />
@@ -37,12 +41,20 @@ const App = () => {
         element={<CheckAuth isAuthenticated={isAuthenticated} user={user} />}
       />
 
-      {/* Admin Routes */}
+      {/* Admin Routes with Layout */}
       <Route
         path="/admin"
-        element={<CheckAuth isAuthenticated={isAuthenticated} user={user} />}
+        element={
+          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+            <AdminLayout />
+          </CheckAuth>
+        }
       >
-        <Route path="dashboard" element={<Dashboard />} />
+        {/* <Route index element={<Dashboard />} /> */}
+        <Route path="dashboard" element={<Dashboard />} ></Route>
+        <Route path="add-employee" element={<AddEmployee />} ></Route>
+        <Route path="add-user" element={<AddUser />} ></Route>
+        <Route path="add-loan" element={<AddLoan />} ></Route>
       </Route>
 
       {/* Employee Routes */}

@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 
-const CheckAuth = ({ isAuthenticated, user }) => {
+const CheckAuth = ({ isAuthenticated, user, children }) => {
   const location = useLocation();
 
   // Redirect unauthenticated users
@@ -11,11 +11,11 @@ const CheckAuth = ({ isAuthenticated, user }) => {
 
   // Prevent authenticated users from accessing login page
   if (isAuthenticated && location.pathname.includes("/auth/login")) {
-    return user?.role === "admin" ? (
-      <Navigate to="/admin/dashboard" />
-    ) : (
-      <Navigate to="/employee/dashboard" />
-    );
+     if(user?.role === "admin") { 
+      return <Navigate to="/admin/dashboard" />
+     } else {
+      return <Navigate to="/employee/dashboard" />
+    }
   }
 
   // Role-based protection
@@ -24,7 +24,6 @@ const CheckAuth = ({ isAuthenticated, user }) => {
     user?.role !== "admin" &&
     location.pathname.includes("/admin")
   ) {
-    console.log(user?.role, "roleeee")
     return <Navigate to="/unauth-page" />;
   }
 
@@ -36,7 +35,8 @@ const CheckAuth = ({ isAuthenticated, user }) => {
     return <Navigate to="/admin/dashboard" />;
   }
 
-  return <Outlet />; // this renders nested child routes
+    return <>{children}</>
+ // this renders nested child routes
 };
 
 export default CheckAuth;
