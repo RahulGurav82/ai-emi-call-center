@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post("/login", login);
 router.post("/register", register);
-router.get("/logout", logout);
+router.post("/logout", logout);
 
 router.get("/check-auth", authMiddleware, (req, res) => {
   const user = req.user;
