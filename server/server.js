@@ -30,7 +30,9 @@ app.get("/", (req, res) => {
     res.send("Work");
 });
 
-app.use("/api/v1/auth/", require('./routes/auth/auth-routes'))
+app.use("/api/v1/auth/", require('./routes/auth/auth-routes'));
+
+app.use("/api/v1/admin/", require('./routes/admin/admin-routes'));
 
 const PORT = process.env.PORT;
 

@@ -1,7 +1,10 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const LoginModel = require("../../models/Login.model"); // Your login schema model
-const { loginSchema, registerSchema } = require("../../validators/auth/authValidator");
+const {
+  loginSchema,
+  registerSchema,
+} = require("../../validators/auth/authValidator");
 require("dotenv").config();
 
 // Environment secret
@@ -78,10 +81,12 @@ exports.login = async (req, res) => {
     res.status(200).json({
       success: true,
       token,
-      user: { name: user.name, email: user.email, role: user.role },
+      user: { 
+        name: user.name, 
+        email: user.email, 
+        role: user.role 
+      },
     });
-
-
   } catch (err) {
     if (err.name === "ZodError") {
       const errorMessages = err.errors.map((e) => e.message);
