@@ -81,7 +81,7 @@ const AdminSidebar = ({ sidebarOpen, setSidebarOpen, activeTab, setActiveTab }) 
           </div>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden text-slate-400 hover:text-white transition-colors"
+            className="lg:hidden cursor-pointer text-slate-400 hover:text-white transition-colors"
           >
             <X className="w-6 h-6" />
           </button>

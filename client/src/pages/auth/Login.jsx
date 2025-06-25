@@ -93,10 +93,10 @@ const Login = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [loginError, setLoginError] = useState('');
   const dispatch = useDispatch();
-    const { 
-    notifications, 
-    addNotification, 
-    removeNotification 
+    const {
+    notifications,
+    addNotification,
+    removeNotification
   } = useNotification();
 
   const handleInputChange = (e) => {
@@ -113,11 +113,12 @@ const Login = () => {
         [name]: ''
       }));
     }
-    
+
     // Clear login error
     if (loginError) {
       setLoginError('');
     }
+
   };
 
   const validateForm = () => {
@@ -156,7 +157,7 @@ const Login = () => {
           const message = data?.payload?.message
           addNotification('error', 'Error!', message)
         }
-      })
+      });
 
     } catch (error) {
 
@@ -313,7 +314,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-              {/* Notifications container */}
+      {/* Notifications container */}
         <div className="fixed top-4 right-4 z-50 max-w-md w-full">
           {notifications.map((notification) => (
             <Notification

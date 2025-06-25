@@ -1,4 +1,7 @@
 import { Bell, ChevronDown, LogOut, Menu, Search } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../store/auth-Slice";
+import useNotification from "../../hooks/useNotification";
 
 const AdminHeader = ({ setSidebarOpen, user }) => {
   const currentTime = new Date().toLocaleString('en-US', {
@@ -10,6 +13,27 @@ const AdminHeader = ({ setSidebarOpen, user }) => {
     minute: '2-digit'
   });
 
+    const { notifications, addNotification, removeNotification } =
+    useNotification();
+  const dispatch = useDispatch();
+
+
+  const handleLogout = () => {
+    try {
+      dispatch(loginUser()).then((data) => {
+        if (data?.payload?.success) {
+          const message = data?.payload?.message;
+          addNotification("success", "Success!", message);
+        } else {
+          const message = data?.payload?.message;
+          addNotification("error", "Error!", message);
+        }
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <header className="bg-white shadow-sm border-b border-gray-200">
       <div className="flex items-center justify-between px-4 lg:px-6 py-4">
@@ -17,7 +41,7 @@ const AdminHeader = ({ setSidebarOpen, user }) => {
         <div className="flex items-center space-x-4">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            className="lg:hidden cursor-pointer p-2 rounded-lg hover:bg-gray-100 transition-colors"
           >
             <Menu className="w-6 h-6 text-gray-600" />
           </button>
@@ -62,12 +86,28 @@ const AdminHeader = ({ setSidebarOpen, user }) => {
             </button>
           </div>
           
-          <button className="cursor-pointer flex px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg hover:from-red-600 hover:to-red-700 transition-all duration-200 shadow-lg hover:shadow-xl">
+          <button onClick={handleLogout}  className="cursor-pointer flex items-center justify-center px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg hover:from-red-600 hover:to-red-700 transition-all duration-200 shadow-lg hover:shadow-xl">
             <LogOut className="w-4 h-4 mr-2 inline" />
             <span className="hidden sm:inline">Logout</span>
           </button>
         </div>
+
       </div>
+        {/* Notifications container */}
+        <div className="fixed top-10 right-4 z-50 max-w-md w-full">
+          {notifications.map((notification) => (
+            <Notification
+              key={notification.id}
+              type={notification.type}
+              title={notification.title}
+              message={notification.message}
+              isVisible={notification.isVisible}
+              onClose={() => removeNotification(notification.id)}
+              autoClose={true}
+              autoCloseDelay={4000}
+            />
+          ))}
+        </div>
     </header>
   );
 };
