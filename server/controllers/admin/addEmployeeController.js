@@ -1,6 +1,8 @@
 const LoginModel = require("../../models/Login.model");
 const UserModel = require("../../models/User.model");
 const LoanModel = require("../../models/Loan.model");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const { registerSchema } = require("../../validators/auth/authValidator");
 
 // Register Controller
@@ -8,6 +10,7 @@ exports.addEmployee = async (req, res) => {
   try {
     const validatedData = registerSchema.parse(req.body);
     const { name, email, password, role } = validatedData;
+    
 
     // Check existing user
     const existingUser = await LoginModel.findOne({ email });
