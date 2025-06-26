@@ -32,6 +32,7 @@ const AdminLayout = () => {
         setSidebarOpen={setSidebarOpen}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
+        user={user}
       />
       
       <div className="flex-1 flex flex-col overflow-hidden">

@@ -15,7 +15,7 @@ import {
   Languages,
   Locate,
 } from "lucide-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addUsers } from "../../store/admin/user-Slice";
 
 // Mock notification hook
@@ -121,7 +121,7 @@ const AddUser = () => {
     }
 
     if (!formData.language) {
-      newErrors.language = "Please select a role";
+      newErrors.language = "Please select a language";
     }
 
     setErrors(newErrors);
@@ -191,6 +191,9 @@ const AddUser = () => {
       label: "Gujrati",
     },
   ];
+
+  const { user } = useSelector(state => state.user)
+
 
   return (
     <div className="space-y-6">

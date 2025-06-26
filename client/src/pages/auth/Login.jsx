@@ -48,7 +48,7 @@ const InputField = ({ label, type = 'text', error, className = '', ...props }) =
       <div className="relative">
         <input
           type={inputType}
-          className={`w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${error ? 'border-red-500 focus:ring-red-500' : ''} ${className}`}
+          className={`outline-none w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${error ? 'border-red-500 focus:ring-red-500' : ''} ${className}`}
           {...props}
         />
         {isPassword && (

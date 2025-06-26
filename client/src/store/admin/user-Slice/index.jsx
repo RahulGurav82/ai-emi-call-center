@@ -6,8 +6,8 @@ export const addUsers = createAsyncThunk(
   "user/add",
   async (formData, { rejectWithValue }) => {
     try {
-      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/admin/users`, formData); // adjust URL if needed
-      return res.data;
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/admin/create-loan`, formData); // adjust URL if needed
+      return res?.data;
     } catch (err) {
       return rejectWithValue(
         err.response?.data?.message || "Something went wrong"
@@ -22,6 +22,7 @@ const usersSlice = createSlice({
     loading: false,
     success: false,
     error: null,
+    user : null,
   },
   reducers: {
     resetUsersSliceState: (state) => {
@@ -37,15 +38,16 @@ const usersSlice = createSlice({
         state.success = false;
         state.error = null;
       })
-      .addCase(addUsers.fulfilled, (state) => {
+      .addCase(addUsers.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
         state.error = null;
+        state.user = action?.payload?.user || null;
       })
       .addCase(addUsers.rejected, (state, action) => {
         state.loading = false;
         state.success = false;
-        state.error = action.payload || "Failed to add user";
+        state.error = action?.payload || "Failed to add user";
       });
   },
 });

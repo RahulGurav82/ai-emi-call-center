@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const AdminSidebar = ({ sidebarOpen, setSidebarOpen, activeTab, setActiveTab }) => {
+const AdminSidebar = ({user, sidebarOpen, setSidebarOpen, activeTab, setActiveTab }) => {
   const menuItems = [
     { 
       path: '/admin/dashboard', 
@@ -25,12 +25,6 @@ const AdminSidebar = ({ sidebarOpen, setSidebarOpen, activeTab, setActiveTab }) 
       label: 'Add Employee', 
       icon: UserPlus,
       description: 'Manage Staff'
-    },
-    { 
-      path: '/admin/add-user', 
-      label: 'Add User', 
-      icon: Users,
-      description: 'Customer Management'
     },
     { 
       path: '/admin/add-loan', 
@@ -125,11 +119,13 @@ const AdminSidebar = ({ sidebarOpen, setSidebarOpen, activeTab, setActiveTab }) 
         <div className="p-4 border-t border-slate-700">
           <div className="flex items-center space-x-3 p-3 rounded-xl bg-slate-800">
             <div className="w-10 h-10 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center">
-              <span className="text-white font-semibold text-sm">JA</span>
+              <span className="text-white font-semibold text-sm">
+                {user?.name?.split(' ').map(n => n[0]).join('')}
+              </span>
             </div>
             <div className="flex-1">
-              <p className="text-sm font-medium text-white">John Admin</p>
-              <p className="text-xs text-slate-400">Super Admin</p>
+              <p className="text-sm font-medium text-white">{user.name}</p>
+              <p className="text-xs text-slate-400">{user.role}</p>
             </div>
           </div>
         </div>
