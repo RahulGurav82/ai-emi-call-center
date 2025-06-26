@@ -194,8 +194,8 @@ const AddEmployee = () => {
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 rounded-2xl p-6 text-white">
         <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 bg-white bg-opacity-50 rounded-xl flex items-center justify-center">
-            <UserPlus className="w-6 h-6 text-blue-500" />
+          <div className="w-12 h-12 bg-white/50 rounded-xl flex items-center justify-center">
+            <UserPlus className="w-6 h-6 text-white" />
           </div>
           <div>
             <h1 className="text-2xl font-bold">Add New Employee</h1>
