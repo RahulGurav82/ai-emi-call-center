@@ -1,8 +1,5 @@
 const LoginModel = require("../../models/Login.model");
-const UserModel = require("../../models/User.model");
-const LoanModel = require("../../models/Loan.model");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const { registerSchema } = require("../../validators/auth/authValidator");
 
 // Register Controller
@@ -43,73 +40,6 @@ exports.addEmployee = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Registration failed",
-      error: err.message,
-    });
-  }
-};
-
-// Create User Controller
-exports.createUser = async (req, res) => {
-  try {
-    // Validate request body
-    const validatedData = userValidationSchema.parse(req.body);
-
-    // Create new user
-    const user = new UserModel(validatedData);
-    await user.save();
-
-    return res.status(201).json({ success: true, user });
-  } catch (err) {
-    // Zod validation error
-    if (err.name === "ZodError") {
-      return res.status(400).json({
-        success: false,
-        message: "Validation failed",
-        errors: err.errors,
-      });
-    }
-
-    // Duplicate key error
-    if (err.code === 11000) {
-      return res.status(409).json({
-        success: false,
-        message: `Duplicate value for: ${Object.keys(err.keyValue).join(", ")}`,
-      });
-    }
-
-    // Other errors
-    return res.status(500).json({
-      success: false,
-      message: "Server error",
-      error: err.message,
-    });
-  }
-};
-
-// Create Loan Controller
-exports.createLoan = async (req, res) => {
-  try {
-    // Validate request body
-    const validatedData = loanValidationSchema.parse(req.body);
-
-    // Create new loan
-    const loan = new LoanModel(validatedData);
-    await loan.save();
-
-    return res.status(201).json({ success: true, loan });
-  } catch (err) {
-    // Zod validation error
-    if (err.name === "ZodError") {
-      return res.status(400).json({
-        success: false,
-        message: "Validation failed",
-        errors: err.errors,
-      });
-    }
-
-    return res.status(500).json({
-      success: false,
-      message: "Server error",
       error: err.message,
     });
   }

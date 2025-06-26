@@ -1,5 +1,7 @@
 const express = require("express");
-const { addEmployee, createUser, createLoan } = require("../../controllers/admin/addEmployeeController");
+const { addEmployee } = require("../../controllers/admin/addEmployeeController");
+const { createUser } = require("../../controllers/admin/addUserController");
+const { createLoan } = require("../../controllers/admin/addLoanController");
 const router = express.Router();
 
 router.post('/employee/register', addEmployee)
