@@ -1,31 +1,53 @@
-const LoanModel = require("../../models/Loan.model");
-const { loanValidationSchema } = require("../../validators/admin/loanValidationSchema");
+ // Import your model
+const LoanModel = require("../../models/Loan.model")
+const {loanSchema} = require("../../validators/admin/loanValidationSchema")
 
-// Create Loan Controller
-exports.createLoan = async (req, res) => {
+const createLoan = async (req, res) => {
   try {
     // Validate request body
-    const validatedData = loanValidationSchema.parse(req.body);
+    const validatedData = loanSchema.parse(req.body);
 
-    // Create new loan
-    const loan = new LoanModel(validatedData);
-    await loan.save();
+    // Create new loan document
+    const newLoan = new LoanModel({
+      ...validatedData,
+    });
 
-    return res.status(201).json({ success: true, loan });
-  } catch (err) {
-    // Zod validation error
-    if (err.name === "ZodError") {
+    // Save to database
+    const savedLoan = await newLoan.save();
+
+    // Success response
+    res.status(201).json({
+      success: true,
+      message: "Loan created successfully",
+      data: savedLoan
+    });
+
+  } catch (error) {
+    // Handle Zod validation errors
+    if (error.name === "ZodError") {
+      const errorMessages = error.errors.map((e) => e.message);
+      return res
+        .status(400)
+        .json({ message: errorMessages, errors: errorMessages });
+    }
+
+    // Handle duplicate key errors (unique fields)
+    if (error.code === 11000) {
+      const field = Object.keys(error.keyPattern)[0];
       return res.status(400).json({
         success: false,
-        message: "Validation failed",
-        errors: err.errors,
+        message: `${field} already exists`,
+        field: field
       });
     }
 
-    return res.status(500).json({
+    // Handle other errors
+    res.status(500).json({
       success: false,
-      message: "Server error",
-      error: err.message,
+      message: "Failed to create loan",
+      error: error.message
     });
   }
 };
+
+module.exports = { createLoan };

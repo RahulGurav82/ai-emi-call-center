@@ -1,40 +1,63 @@
 const mongoose = require("mongoose");
 
 const loanSchema = new mongoose.Schema({
-  user_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
+  // User fields
+  user_name: {
+    type: String,
+    required: true
   },
+  user_phone: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  user_email: {
+    type: String,
+    default: null,
+    unique: true,
+    match: /.+\@.+\..+/
+  },
+  user_language: {
+    type: String,
+    default: "en"
+  },
+  user_location: {
+    type: String,
+    default: null
+  },
+
+  // Loan fields
   loan_amount: {
     type: Number,
-    required: true,
+    required: true
   },
   emi_amount: {
     type: Number,
-    required: true,
+    required: true
   },
   due_date: {
     type: Date,
-    required: true,
+    required: true
   },
-  status: {
+  loan_status: {
     type: String,
     enum: ["active", "overdue", "closed"],
-    default: "active",
+    default: "active"
   },
   overdue_days: {
     type: Number,
-    default: 0,
+    default: 0
   },
   last_payment_date: {
     type: Date,
-    default: null,
+    default: null
   },
+
+  // Common fields
   created_at: {
     type: Date,
-    default: Date.now,
-  },
+    default: Date.now
+  }
 });
 
 module.exports = mongoose.model("Loan", loanSchema);
