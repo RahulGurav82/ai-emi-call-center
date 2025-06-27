@@ -15,6 +15,7 @@ import CallCenter from "./pages/admin/CallCenter";
 import Analytics from "./pages/admin/Analytics";
 import Setting from "./pages/admin/Setting";
 import Pay from "./pages/users/Pay";
+import UsersPage from "./pages/admin/UsersPage";
 
 const App = () => {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
@@ -58,6 +59,7 @@ const App = () => {
         <Route path="dashboard" element={<Dashboard />} ></Route>
         <Route path="add-employee" element={<AddEmployee />} ></Route>
         <Route path="add-loan" element={<AddLoan />} ></Route>
+        <Route path="users" element={<UsersPage />} ></Route>
         <Route path="ai-calls" element={<CallCenter />} ></Route>
         <Route path="analytics" element={<Analytics />} ></Route>
         <Route path="settings" element={<Setting />} ></Route>

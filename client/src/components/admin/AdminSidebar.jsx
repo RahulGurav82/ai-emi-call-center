@@ -8,7 +8,8 @@ import {
   TrendingUp, 
   Settings, 
   Bot,
-  Activity
+  Activity,
+  BookUser
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -31,6 +32,12 @@ const AdminSidebar = ({user, sidebarOpen, setSidebarOpen, activeTab, setActiveTa
       label: 'Add Loan', 
       icon: CreditCard,
       description: 'Loan Processing'
+    },
+    { 
+      path: '/admin/users', 
+      label: 'All User', 
+      icon: BookUser ,
+      description: 'users details with loan'
     },
     { 
       path: '/admin/ai-calls',
