@@ -8,10 +8,13 @@ import EmplDashboard from "./pages/employee/Dashboard";
 import UnAuthPage from "./pages/common/UnAuthPage";
 import NotFoundPage from "./pages/common/NotFoundPage";
 import { checkAuth } from "./store/auth-Slice";
-import AddUser from "./pages/admin/AddUser";
 import AddLoan from "./pages/admin/AddLoan";
 import AddEmployee from "./pages/admin/AddEmployee";
 import AdminLayout from './components/admin/layout/AdminLayout'
+import CallCenter from "./pages/admin/CallCenter";
+import Analytics from "./pages/admin/Analytics";
+import Setting from "./pages/admin/Setting";
+import Pay from "./pages/users/Pay";
 
 const App = () => {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
@@ -30,6 +33,7 @@ const App = () => {
       </Route>
 
       <Route path="/auth/login" element={<CheckAuth isAuthenticated={isAuthenticated} user={user} ><Login /> </CheckAuth>} />
+      <Route path="/pay" element={<Pay />} />
 
       {/* Unauth & Not Found Pages */}
       <Route path="/unauth-page" element={<UnAuthPage />} />
@@ -53,8 +57,10 @@ const App = () => {
         {/* <Route index element={<Dashboard />} /> */}
         <Route path="dashboard" element={<Dashboard />} ></Route>
         <Route path="add-employee" element={<AddEmployee />} ></Route>
-        <Route path="add-user" element={<AddUser />} ></Route>
         <Route path="add-loan" element={<AddLoan />} ></Route>
+        <Route path="ai-calls" element={<CallCenter />} ></Route>
+        <Route path="analytics" element={<Analytics />} ></Route>
+        <Route path="settings" element={<Setting />} ></Route>
       </Route>
 
       {/* Employee Routes */}

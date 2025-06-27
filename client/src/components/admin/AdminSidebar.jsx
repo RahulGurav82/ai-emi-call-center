@@ -33,7 +33,7 @@ const AdminSidebar = ({user, sidebarOpen, setSidebarOpen, activeTab, setActiveTa
       description: 'Loan Processing'
     },
     { 
-      path: '/admin/ai-calls', 
+      path: '/admin/ai-calls',
       label: 'AI Call Center', 
       icon: Bot,
       description: 'Automated Recovery'
