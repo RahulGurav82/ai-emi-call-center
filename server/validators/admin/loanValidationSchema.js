@@ -11,14 +11,15 @@ exports.loanSchema = z.object({
     .email("Invalid email format")
     .nullable()
     .optional(),
-  user_language: z.string().default("en"),
+  user_language: z.string().default("hindi"),
   user_location: z.string().nullable().optional(),
 
   // Loan fields
   loan_amount: z.number().positive("Loan amount must be positive"),
   emi_amount: z.number().positive("EMI amount must be positive"),
-  due_date: z.coerce.date().min(new Date(), "Due date cannot be in the past"),
-  loan_status: z.enum(["active", "overdue", "closed"]).default("active"),
+  due_date: z.coerce.date()
+    .min(new Date(), "Due date cannot be in the past")
+    .transform(date => date.toISOString().split('T')[0]), // transforms to YYYY-MM-DD  loan_status: z.enum(["active", "overdue", "closed"]).default("active"),
   overdue_days: z.number().int().nonnegative().default(0),
   last_payment_date: z.coerce.date().nullable().optional()
 });

@@ -1,15 +1,25 @@
  // Import your model
 const LoanModel = require("../../models/Loan.model")
 const {loanSchema} = require("../../validators/admin/loanValidationSchema")
+const generateLoanNumber = require('../../utils/loanNumber')
 
 const createLoan = async (req, res) => {
   try {
     // Validate request body
+    console.log(req.body)
     const validatedData = loanSchema.parse(req.body);
+
+    // 2️⃣ Generate a unique 10-digit loan number
+    let loan_number;
+    do {
+      loan_number = generateLoanNumber();
+    } while (await LoanModel.exists({ loan_number })); // collision check
+
 
     // Create new loan document
     const newLoan = new LoanModel({
       ...validatedData,
+      loan_number,
     });
 
     // Save to database

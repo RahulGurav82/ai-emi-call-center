@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const loanSchema = new mongoose.Schema({
   // User fields
+  loan_number : {
+    type : Number,
+    unique : true,
+    required : true
+  },
   user_name: {
     type: String,
     required: true
@@ -9,12 +14,10 @@ const loanSchema = new mongoose.Schema({
   user_phone: {
     type: String,
     required: true,
-    unique: true
   },
   user_email: {
     type: String,
     default: null,
-    unique: true,
     match: /.+\@.+\..+/
   },
   user_language: {
@@ -30,6 +33,11 @@ const loanSchema = new mongoose.Schema({
   loan_amount: {
     type: Number,
     required: true
+  },
+  paid_amount: {
+    type: Number,
+    required: true,
+    default: 0
   },
   emi_amount: {
     type: Number,
