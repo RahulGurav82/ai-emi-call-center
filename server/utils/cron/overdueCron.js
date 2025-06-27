@@ -1,6 +1,6 @@
 // cron/overdueCron.js
 const cron = require('node-cron');
-const Loan = require('../models/loan.model');
+const Loan = require('../../models/loan.model');
 
 cron.schedule('0 0 * * *', async () => {     // every night at 00:00
   await Loan.updateMany(
