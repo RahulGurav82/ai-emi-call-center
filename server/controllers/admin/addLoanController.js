@@ -60,4 +60,24 @@ const createLoan = async (req, res) => {
   }
 };
 
-module.exports = { createLoan };
+
+const fetchAllLoans = async (req, res) => {
+  try {
+    
+    const loans = await LoanModel.find({});
+
+    res.status(200).json({
+      success : true,
+      data : loans,
+    })
+    
+  } catch (error) {
+    // Handle other errors
+    res.status(500).json({
+      success: false,
+      message: "Failed to create loan",
+      error: error.message
+    });
+  }
+}
+module.exports = { createLoan, fetchAllLoans };
