@@ -22,7 +22,7 @@ const loanSchema = new mongoose.Schema({
   },
   user_language: {
     type: String,
-    default: "en"
+    default: "english"
   },
   user_location: {
     type: String,
